@@ -1,6 +1,5 @@
 package ru.hpclab.bd.module1.service;
 
-
 import ru.hpclab.bd.module1.controller.exeption.IssueException;
 import ru.hpclab.bd.module1.entity.IssueEntity;
 import ru.hpclab.bd.module1.repository.BookRepository;
@@ -15,6 +14,7 @@ import static java.lang.String.format;
  * Service to control issues.
  */
 public class IssueService {
+
     /**
      * User exception not found in repository message.
      */
@@ -24,16 +24,20 @@ public class IssueService {
      */
     public static final String BOOK_NOT_FOUND_IN_REPO = "This book was not found in book repository";
 
-    public static final String ISSUE_NOT_FOUND_MSG = "ssue with %s was not found";
+    /**
+     * Issue exception not found message.
+     */
+    public static final String ISSUE_NOT_FOUND_MSG = "Issue with %s was not found";
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+
     /**
      * Builds new issueService.
-     * @param issueRepository issue repository
-     * @param userRepository user repository
-     * @param bookRepository book repository
      *
+     * @param issueRepository issue repository
+     * @param userRepository  user repository
+     * @param bookRepository  book repository
      */
     public IssueService(final IssueRepository issueRepository,
                         final UserRepository userRepository,
@@ -42,26 +46,30 @@ public class IssueService {
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
     }
+
     /**
      * Fetches all issues.
+     *
      * @return list of issues
      */
     public List<IssueEntity> getAllIssues() {
         return issueRepository.findAll();
     }
+
     /**
      * Fetches issue by id.
+     *
      * @param id issue id
      * @return issue
      */
-
-    public IssueEntity getIssueById(Long id) {
+    public IssueEntity getIssueById(final Long id) {
         return issueRepository.findById(id).orElseThrow(() -> new IssueException(format(ISSUE_NOT_FOUND_MSG, id)));
     }
 
     /**
      * Creates or updates issue.
-     * throws runtime exception
+     * Throws a runtime exception.
+     *
      * @param issueEntity issue to save
      * @return saved issue
      */
@@ -73,19 +81,21 @@ public class IssueService {
 
     /**
      * Deletes issue by id.
+     *
      * @param id issue id
      */
-    public void deleteIssue(Long id) {
+    public void deleteIssue(final Long id) {
         issueRepository.deleteById(id);
     }
 
     /**
      * Updates issue.
-     * @param id issue id to update
+     *
+     * @param id          issue id to update
      * @param issueEntity issue with new attributes
      * @return updated issue
      */
-    public IssueEntity updateIssue(Long id, final IssueEntity issueEntity) {
+    public IssueEntity updateIssue(final Long id, final IssueEntity issueEntity) {
         issueEntity.setId(id);
         return issueRepository.save(issueEntity);
     }

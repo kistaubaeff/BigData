@@ -33,7 +33,7 @@ public class UserServiceTest {
     @Test
     public void testCreateAndGet() {
         //create
-        UserEntity userEntity = new UserEntity(0L, UUID.randomUUID().toString(), "name", null);
+        UserEntity userEntity = new UserEntity(0L, UUID.randomUUID().toString(), "name");
 
         UserEntity savedUser = userService.saveUser(userEntity);
 
@@ -56,10 +56,10 @@ public class UserServiceTest {
         UserRepository userRepository() {
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(any())).thenReturn(new UserEntity(0L,
-                    UUID.randomUUID().toString(), "name", null));
+                    UUID.randomUUID().toString(), "name"));
             when(userRepository.findAll())
-                    .thenReturn(Arrays.asList(new UserEntity(1L, UUID.randomUUID().toString(), "name1", null),
-                            new UserEntity(2L, UUID.randomUUID().toString(), "name2", null)));
+                    .thenReturn(Arrays.asList(new UserEntity(1L, UUID.randomUUID().toString(), "name1"),
+                            new UserEntity(2L, UUID.randomUUID().toString(), "name2")));
             return userRepository;
         }
 
