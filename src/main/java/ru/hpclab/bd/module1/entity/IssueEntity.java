@@ -5,17 +5,17 @@ import jakarta.persistence.*;
  * Entity class representing an issue.
  */
 @Entity
-@Table(name = "tIssue")
+@Table(name = "t_issue")
 public class IssueEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "identifier", nullable = false)
+    @Column(name = "identifier")
     private String identifier;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
     @ManyToOne(cascade = CascadeType.MERGE)

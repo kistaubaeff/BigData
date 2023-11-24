@@ -9,7 +9,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
  * Entity class representing a user.
  */
 @Entity
-@Table(name = "tUser")
+@Table(name = "t_user")
 public class UserEntity {
 
     @Id

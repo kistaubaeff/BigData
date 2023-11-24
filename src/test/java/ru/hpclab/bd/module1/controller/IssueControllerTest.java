@@ -1,16 +1,21 @@
 package ru.hpclab.bd.module1.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.hpclab.bd.module1.Module1Application;
 import ru.hpclab.bd.module1.entity.BookEntity;
 import ru.hpclab.bd.module1.entity.IssueEntity;
@@ -22,7 +27,6 @@ import ru.hpclab.bd.module1.repository.UserRepository;
 
 import java.util.UUID;
 
-import static io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider.ZONKY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,7 +36,8 @@ import static ru.hpclab.bd.module1.mapper.Mapper.entity2Issue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Module1Application.class)
 @AutoConfigureMockMvc
-@AutoConfigureEmbeddedDatabase(provider = ZONKY)
+@TestPropertySource("classpath:application-test.properties")
+@Testcontainers
 public class IssueControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -57,14 +62,19 @@ public class IssueControllerTest {
     @Autowired
     private IssueRepository issueRepository;
 
-    /**
-     * Clears all records from the user repository before each test.
-     */
-    @BeforeEach
-    public void init() {
-        userRepository.deleteAll();
-        bookRepository.deleteAll();
-        issueRepository.deleteAll();
+    @Container
+    private static PostgreSQLContainer<?> postgreSQLContainer =
+            (PostgreSQLContainer) new PostgreSQLContainer("postgres:15.2-alpine")
+                    .withDatabaseName("test-db")
+                    .withUsername("test")
+                    .withPassword("test")
+                    .waitingFor(Wait.forListeningPort());
+
+    @DynamicPropertySource
+    static void dataSourceProperties(final DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
+        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
 
     @Test

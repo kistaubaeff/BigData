@@ -1,24 +1,27 @@
 package ru.hpclab.bd.module1.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.hpclab.bd.module1.Module1Application;
 import ru.hpclab.bd.module1.entity.BookEntity;
 import ru.hpclab.bd.module1.mapper.Mapper;
 import ru.hpclab.bd.module1.repository.BookRepository;
 
 
-
-import static io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider.ZONKY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Module1Application.class)
 @AutoConfigureMockMvc
-@AutoConfigureEmbeddedDatabase(provider = ZONKY)
+@TestPropertySource("classpath:application-test.properties")
+@Testcontainers
 public class BookControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
     public static final String STATIONMASTER_ISBN = "9781421527635";
@@ -36,24 +40,31 @@ public class BookControllerTest {
     public static final int STATIONMASTER_YEAR = 1831;
     public static final int STATIONMASTER_VOLUME = 48;
 
-
-
-
-
-
     @Autowired
     private MockMvc mvc;
 
     @Autowired
     private BookRepository bookRepository;
 
+    @Container
+    private static PostgreSQLContainer<?> postgreSQLContainer =
+            (PostgreSQLContainer) new PostgreSQLContainer("postgres:15.2-alpine")
+                    .withDatabaseName("test-db")
+                    .withUsername("test")
+                    .withPassword("test")
+                    .waitingFor(Wait.forListeningPort());
+
+    @DynamicPropertySource
+    static void dataSourceProperties(final DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
+        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
+    }
+
     /**
      * Clears all records from the book repository before each test.
      */
-    @BeforeEach
-    public void init() {
-        bookRepository.deleteAll();
-    }
+
 
     @Test
     public void get_should_returnBook_when_bookExists() throws Exception {
