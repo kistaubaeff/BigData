@@ -13,9 +13,9 @@
 
 2. Запустите следующую команду для запуска базы данных PostgreSQL с использованием Docker:
 
-   ```bash
+   ```
    docker run --rm --name pg-docker -e POSTGRES_PASSWORD=test -e POSTGRES_USER=test -e POSTGRES_DB=module1 -p 5433:5432 postgres:13
-   ```bash
+   ```
    Эта команда запускает контейнер PostgreSQL с указанной конфигурацией.
 
 ## Настройка проекта
