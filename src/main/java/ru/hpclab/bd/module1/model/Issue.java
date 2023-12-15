@@ -1,39 +1,32 @@
 package ru.hpclab.bd.module1.model;
 
-import org.springframework.lang.NonNull;
-
-import java.time.LocalDate;
-import java.util.UUID;
-
 /**
- * Issue model.
+ * Model representing an issue.
  */
-
 public class Issue {
-    @NonNull
-    private UUID issueID;
-    @NonNull
+
+    private Long id;
+    private String identifier;
     private User user;
-
-    @NonNull
-    private  Book book;
-
-    private LocalDate issueDate;
-
-
+    private Book book;
+    private String issueDate;
     private int period;
 
     /**
-     * Builds new issue.
-     * @param identifier issue id
-     * @param user issue user
-     * @param book issue book
-     * @param issueDate issue date
-     * @param period issue period
+     * Constructs a new Issue.
+     *
+     * @param id         The issue ID.
+     * @param identifier The issue identifier.
+     * @param user       The user associated with the issue.
+     * @param book       The book associated with the issue.
+     * @param issueDate  The date when the issue was made.
+     * @param period     The period of the issue.
      */
-    public Issue(@NonNull final UUID identifier, @NonNull final User user,
-                 @NonNull final Book book, final LocalDate issueDate, final int period) {
-        this.issueID = identifier;
+    public Issue(final Long id, final String identifier,
+                 final User user, final Book book,
+                 final String issueDate, final int period) {
+        this.id = id;
+        this.identifier = identifier;
         this.user = user;
         this.book = book;
         this.issueDate = issueDate;
@@ -41,99 +34,130 @@ public class Issue {
     }
 
     /**
-     * Empty constructor.
+     * Empty constructor for Issue.
      */
     public Issue() {
     }
 
     /**
-     * Return's issue's user.
-     * @return user of issue
+     * Gets the user associated with the issue.
+     *
+     * @return The user associated with the issue.
      */
-    @NonNull
     public User getUser() {
         return user;
     }
 
     /**
-     * Returns issue's id.
-     * @return id of issue
+     * Gets the ID of the issue.
+     *
+     * @return The ID of the issue.
      */
-
-    @NonNull
-    public UUID getIssueID() {
-        return issueID;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
-     * Sets issue's id.
-     * @param issueID issue's id
+     * Sets the identifier of the issue.
+     *
+     * @param issueID The identifier of the issue.
      */
-    public void setIssueID(@NonNull final UUID issueID) {
-        this.issueID = issueID;
+    public void setIdentifier(final String issueID) {
+        this.identifier = issueID;
     }
 
     /**
-     * Sets issue's date.
-     * @param issueDate issue date
+     * Sets the date of the issue.
+     *
+     * @param issueDate The date of the issue.
      */
-    public void setIssueDate(@NonNull final LocalDate issueDate) {
+    public void setIssueDate(final String issueDate) {
         this.issueDate = issueDate;
     }
 
     /**
-     * Returns issue's book.
-     * @return book of issue
+     * Gets the book associated with the issue.
+     *
+     * @return The book associated with the issue.
      */
-    @NonNull
     public Book getBook() {
         return book;
     }
 
     /**
-     * Returns issue's date.
-     * @return date of issue
+     * Gets the date when the issue was made.
+     *
+     * @return The date of the issue.
      */
-
-    public LocalDate getIssueDate() {
+    public String getIssueDate() {
         return issueDate;
     }
 
     /**
-     * Returns issue's period.
-     * @return period of issue
+     * Gets the period of the issue.
+     *
+     * @return The period of the issue.
      */
-
     public int getPeriod() {
         return period;
     }
 
-
-
     /**
-     * Returns string representation of the issue.
+     * Sets the user associated with the issue.
+     *
+     * @param user The user associated with the issue.
      */
-
-    @Override
-    public String toString() {
-        return "Issue{"
-                + "issueID=" + issueID + ", "
-                + "user='" + user + "'"
-                + "book='" + book + "'"
-                + "issueDate='" + issueDate + "'"
-                + "period='" + period + "'"
-                + "}";
-    }
-
-    public void setUser(@NonNull User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 
-    public void setBook(@NonNull Book book) {
+    /**
+     * Sets the book associated with the issue.
+     *
+     * @param book The book associated with the issue.
+     */
+    public void setBook(final Book book) {
         this.book = book;
     }
 
-    public void setPeriod(int period) {
+    /**
+     * Sets the period of the issue.
+     *
+     * @param period The period of the issue.
+     */
+    public void setPeriod(final int period) {
         this.period = period;
+    }
+
+    /**
+     * Returns a string representation of the issue.
+     */
+    @Override
+    public String toString() {
+        return "Issue{"
+                + "id=" + id
+                + ", identifier='" + identifier + '\''
+                + ", user=" + user
+                + ", book=" + book
+                + ", issueDate='" + issueDate + '\''
+                + ", period=" + period
+                + '}';
+    }
+    /**
+     * Gets the id associated with the issue.
+     *
+     * @return The id associated with the issue.
+     */
+
+    public Long getId() {
+        return id;
+    }
+    /**
+     * Sets the id associated with the issue.
+     *
+     * @param id The id associated with the issue.
+     */
+    public void setId(final Long id) {
+        this.id = id;
     }
 }
