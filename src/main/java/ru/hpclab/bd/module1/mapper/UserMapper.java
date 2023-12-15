@@ -63,8 +63,7 @@ public class UserMapper {
     // Assuming the following methods for book mapping
     public static BookEntity book2Entity(Book book) {
         BookEntity bookEntity = new BookEntity();
-        bookEntity.setId(book.getId());
-        bookEntity.setIsbn(book.getIsbn());
+        bookEntity.setIsbn(book.getISBN());
         bookEntity.setTitle(book.getTitle());
         bookEntity.setVolume(book.getVolume());
         bookEntity.setYear(book.getYear());
@@ -74,35 +73,11 @@ public class UserMapper {
 
     public static Book entity2Book(BookEntity bookEntity) {
         Book book = new Book();
-        book.setId(bookEntity.getId());
         book.setIsbn(bookEntity.getIsbn());
         book.setTitle(bookEntity.getTitle());
         book.setVolume(bookEntity.getVolume());
         book.setYear(bookEntity.getYear());
         book.setListOfAuthors(bookEntity.getListOfAuthors());
         return book;
-    }
-
-    public static Issue entity2Issue(IssueEntity issueEntity) {
-        Issue issue = new Issue();
-        issue.setId(issueEntity.getId());
-        issue.setIdentifier(issueEntity.getIdentifier());
-        issue.setUser(entity2User(issueEntity.getUserEntity()));
-        issue.setBook(entity2Book(issueEntity.getBookEntity()));
-        issue.setIssueDate(issueEntity.getIssueDate());
-        issue.setPeriod(issueEntity.getPeriod());
-        return issue;
-    }
-
-
-    public static IssueEntity issue2Entity(Issue issue) {
-        IssueEntity issueEntity = new IssueEntity();
-        issueEntity.setId(issue.getId());
-        issueEntity.setIdentifier(issue.getIdentifier());
-        issueEntity.setUserEntity(user2Entity(issue.getUser()));
-        issueEntity.setBookEntity(book2Entity(issue.getBook()));
-        issueEntity.setIssueDate(issue.getIssueDate());
-        issueEntity.setPeriod(issue.getPeriod());
-        return issueEntity;
     }
 }

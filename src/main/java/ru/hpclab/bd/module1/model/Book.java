@@ -1,164 +1,121 @@
 package ru.hpclab.bd.module1.model;
+import org.springframework.lang.NonNull;
 
 /**
- * Represents a Book in the system.
+ * Book model.
  */
 public class Book {
 
-    private Long id;
+
+    @NonNull
     private String isbn;
+
+    @NonNull
     private String title;
+
+    @NonNull
     private String listOfAuthors;
+
     private int year;
     private int volume;
 
     /**
-     * Constructs a new book.
-     *
-     * @param id             The book ID.
-     * @param isbn           The book ISBN.
-     * @param title          The book title.
-     * @param listOfAuthors The list of authors for the book.
-     * @param year           The publication year of the book.
-     * @param volume         The volume of the book.
+     * Builds new book.
+     * @param isbn book isbn
+     * @param title book title
+     * @param listOfAuthors book list of authors
+     * @param year book year
+     * @param volume book volume
      */
-    public Book(final Long id, final String isbn,
-                final String title, final String listOfAuthors,
-                final int year, final int volume) {
-        this.id = id;
+    public Book(@NonNull final String isbn, @NonNull final String title,
+                @NonNull final String listOfAuthors, final int year, final int volume) {
         this.isbn = isbn;
         this.title = title;
         this.listOfAuthors = listOfAuthors;
         this.year = year;
         this.volume = volume;
     }
-
     /**
-     * Empty constructor for Book.
+     * Empty contructor.
      */
     public Book() {
     }
 
-    /**
-     * Sets the ISBN of the book.
-     *
-     * @param isbn The ISBN of the book.
-     */
-    public void setIsbn(final String isbn) {
+    public void setIsbn(@NonNull String isbn) {
         this.isbn = isbn;
     }
 
-    /**
-     * Sets the title of the book.
-     *
-     * @param title The title of the book.
-     */
-    public void setTitle(final String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
-    /**
-     * Gets the ID of the book.
-     *
-     * @return The book ID.
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the ID of the book.
-     *
-     * @param id The book ID.
-     */
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Sets the list of authors for the book.
-     *
-     * @param listOfAuthors The list of authors.
-     */
-    public void setListOfAuthors(final String listOfAuthors) {
+    public void setListOfAuthors(@NonNull String listOfAuthors) {
         this.listOfAuthors = listOfAuthors;
     }
 
-    /**
-     * Sets the publication year of the book.
-     *
-     * @param year The publication year of the book.
-     */
-    public void setYear(final int year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
-    /**
-     * Sets the volume of the book.
-     *
-     * @param volume The volume of the book.
-     */
-    public void setVolume(final int volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 
     /**
-     * Gets the ISBN of the book.
-     *
-     * @return The ISBN of the book.
+     * Returns book's identifier.
+     * @return book's id
      */
-    public String getIsbn() {
+
+    @NonNull
+    public String getISBN() {
         return isbn;
     }
 
     /**
-     * Gets the title of the book.
-     *
-     * @return The title of the book.
+     * returns book's title.
+     * @return title
      */
+    @NonNull
     public String getTitle() {
         return title;
     }
 
     /**
-     * Gets the list of authors for the book.
-     *
-     * @return The list of authors for the book.
+     * returns book's list of authors.
+     * @return list of authors
      */
+
+    @NonNull
     public String getListOfAuthors() {
         return listOfAuthors;
     }
 
     /**
-     * Gets the publication year of the book.
-     *
-     * @return The publication year of the book.
+     * Returns book's year.
+     * @return book year
      */
     public int getYear() {
         return year;
     }
-
     /**
-     * Gets the volume of the book.
-     *
-     * @return The volume of the book.
+     * Returns book's volume.
+     * @return book volume
      */
     public int getVolume() {
         return volume;
     }
 
     /**
-     * Returns a string representation of the book.
+     * Returns string representation of the book.
      */
     @Override
     public String toString() {
-        return "Book{"
-                + "id=" + id
-                + ", isbn='" + isbn + '\''
-                + ", title='" + title + '\''
-                + ", listOfAuthors='" + listOfAuthors + '\''
-                + ", year=" + year
-                + ", volume=" + volume
-                + '}';
+        return "User{"
+                + "ISBN=" + isbn + ", "
+                + "title='" + title + "'"
+                + "list_of_authors='" + listOfAuthors + "'"
+                + "year='" + year + "'"
+                + "volume='" + volume + "'"
+                + "}";
     }
 }

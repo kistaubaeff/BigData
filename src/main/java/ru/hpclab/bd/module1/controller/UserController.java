@@ -2,79 +2,81 @@ package ru.hpclab.bd.module1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.hpclab.bd.module1.mapper.Mapper;
 import ru.hpclab.bd.module1.model.User;
 import ru.hpclab.bd.module1.service.UserService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * Rest controller for users.
+ */
 @RestController
-public final class UserController {
+public class UserController {
+
     private final UserService userService;
 
     /**
-     * Constructs a UserController with the specified parameters.
+     * Builds new UserController.
      * @param userService user service
      */
-
     @Autowired
     public UserController(final UserService userService) {
         this.userService = userService;
     }
 
     /**
-     * Retrieves all users.
-     *
-     * @return List of users
+     * Returns all users.
+     * @return list of users
      */
     @GetMapping("/users")
     public List<User> getUsers() {
-        return userService.getAllUsers().stream()
-                .map(Mapper::entity2User).collect(Collectors.toList());
+        return userService.getAllUsers();
     }
 
     /**
-     * Retrieves a user by their ID.
-     *
-     * @param id The ID of the user
-     * @return The user with the specified ID
+     * Returns user by id.
+     * @param id user id
+     * @return user
      */
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable final Long id) {
-        return Mapper.entity2User(userService.getUserById(id));
+    public User getUserById(@PathVariable final String id) {
+        return userService.getUserById(id);
     }
 
     /**
-     * Deletes a user by their ID.
-     *
-     * @param id The ID of the user to be deleted
+     * Deletes user by id.
+     * @param id user id
      */
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable final Long id) {
+    public void deleteUser(@PathVariable final String id) {
         userService.deleteUser(id);
     }
 
     /**
-     * Saves a new user.
-     *
-     * @param user The user to be saved
-     * @return The saved user
+     * Creates or updates user.
+     * @param client user.
+     * @return saved user.
      */
-    @PostMapping("/users")
-    public User saveUser(@RequestBody final User user) {
-        return Mapper.entity2User(userService.saveUser(Mapper.user2Entity(user)));
+    @PostMapping(value = "/users")
+    public User saveUser(@RequestBody final User client) {
+        return userService.saveUser(client);
     }
 
     /**
-     * Updates a user by their ID.
-     *
-     * @param id   The ID of the user to be updated
-     * @param user The updated user information
-     * @return The updated user
+     * Updates user.
+     * @param id user id
+     * @param user user's new attributes
+     * @return updated user
      */
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable(required = false) final Long id, @RequestBody final User user) {
-        return Mapper.entity2User(userService.updateUser(id, Mapper.user2Entity(user)));
+    @PutMapping(value = "/users/{id}")
+    public User updateUser(
+        @PathVariable(required = false) final String id,
+        @RequestBody final User user
+    ) {
+        return userService.updateUser(id, user);
     }
+
+
+
+
 }
