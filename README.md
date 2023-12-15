@@ -20,8 +20,9 @@
 
 ## Настройка проекта
 1. Клонируйте репозиторий:
-```bash
-git clone <repository_url>
+```
+[git clone <repository_url>](https://github.com/kistaubaeff/CRUD.git)
+```
 2. Откройте проект:
 
 Откройте проект в вашей предпочтительной среде разработки на Java.
@@ -38,11 +39,11 @@ git clone <repository_url>
 Проект настроен для подключения к базе данных PostgreSQL с использованием следующих параметров:
 
 URL базы данных:
-```bash jdbc:postgresql://localhost:5433/module1
+``` jdbc:postgresql://localhost:5433/module1 ```
 Имя пользователя:
- ```bash test
+ ``` test ```
 Пароль:
- ```bash test
+ ``` test ```
 Если вам необходимо изменить конфигурацию базы данных, вы можете найти ее в файле application.properties в проекте.
 
 API
@@ -69,4 +70,4 @@ PUT /issues/{id}: Обновляет информацию о выпуске по
 DELETE /issues/{id}: Удаляет выпуск по его идентификатору.
 
 
-Благодарю за использование проекта!
+## Благодарю за использование проекта!
